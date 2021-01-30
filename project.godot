@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "",
+"base": "EditorVCSInterface",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
@@ -21,9 +21,18 @@ _global_script_class_icons={
 [application]
 
 config/name="Amazing"
-run/main_scene="res://scenes/maze_editor/MazeEditor.tscn"
+run/main_scene="res://Game.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/stretch/aspect="keep"
 
 [gdnative]
 
 singletons=[ "res://git_api.gdnlib" ]
+
+[rendering]
+
+environment/default_clear_color=Color( 0.0392157, 0, 0, 1 )
+environment/default_environment="res://default_env.tres"
