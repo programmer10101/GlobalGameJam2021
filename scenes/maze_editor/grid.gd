@@ -4,7 +4,7 @@ var currentTile = Vector2(13, 3)
 
 func _ready():
     pass
-    
+
 func _input(event):
 	if event is InputEventMouseMotion:
 		var pos = event.position
@@ -34,10 +34,10 @@ func submit():
 	emit_signal("coordinates", get_used_cells_by_id(5) + get_used_cells_by_id(6))
 
 func _process(delta):
+	var pos = get_viewport().get_mouse_position()
+	var loc = world_to_map(pos)
+	var cell = get_cell(loc.x, loc.y)
 	if Input.is_mouse_button_pressed(1):
-		var pos = get_viewport().get_mouse_position()
-		var loc = world_to_map(pos)
-		var cell = get_cell(loc.x, loc.y)
 		if(insideMaze(loc) and cell == -1):
 			set_cell(loc.x, loc.y, 7)
     if Input.is_mouse_button_pressed(2):
