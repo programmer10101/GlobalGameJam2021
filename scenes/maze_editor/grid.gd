@@ -13,10 +13,9 @@ func submit():
 	emit_signal("coordinates", get_used_cells_by_id(1))
 
 func _process(delta):
+	var loc = get_mouse_loc()
+	var cell = get_cell(loc.x, loc.y)
 	if Input.is_mouse_button_pressed(1):
-		var pos = get_viewport().get_mouse_position()
-		var loc = world_to_map(pos)
-		var cell = get_cell(loc.x, loc.y)
 		match cell:
 			-1: pass
 			0: pass
@@ -26,6 +25,13 @@ func _process(delta):
 			4: pass
 			
 		print(cell)
+	if Input.is_mouse_button_pressed(2):
+		if (cell == -1):
+			set_cell(loc.x, loc.y, 1)
+			
+func get_mouse_loc():
+	var pos = get_viewport().get_mouse_position()
+	return world_to_map(pos)
 
 func _on_Label_go():
 	submit()
