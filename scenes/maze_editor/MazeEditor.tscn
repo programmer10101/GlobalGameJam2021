@@ -142,7 +142,6 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0.0117647, 0.215686, 0.0823529, 1 )
 text = "0"
 align = 1
-percent_visible = 9.4
 max_lines_visible = 64
 script = ExtResource( 4 )
 

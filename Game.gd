@@ -3,6 +3,7 @@ extends Node
 
 var MainMenu = preload("res://scenes/main_menu/MainMenu.tscn")
 var MazeEditor = preload("res://scenes/maze_editor/MazeEditor.tscn")
+var MazeLevel = preload("res://scenes/maze_level/MazeLevel.tscn")
 var MultiplayerMatcher = preload("res://scenes/multiplayer_matching/MultiplayerMatcher.tscn")
 
 
@@ -24,6 +25,7 @@ func start_sandbox():
     print("Starting Sandbox")
     var maze_editor = MazeEditor.instance()
     add_child(maze_editor)
+    maze_editor.connect("coord", self, "start_maze_level")
     get_node("MainMenu").queue_free()
     
     
@@ -33,6 +35,12 @@ func start_multiplayer():
     add_child(multiplayer_matcher)
     get_node("MainMenu").queue_free()
 
+func start_maze_level(arr):
+    print("Starting Maze Level")
+    var maze_level = MazeLevel.instance()
+    maze_level.init(arr)
+    add_child(maze_level)
+    get_node("MazeEditor").queue_free()
 
 func quit_game():
     get_tree().quit()
