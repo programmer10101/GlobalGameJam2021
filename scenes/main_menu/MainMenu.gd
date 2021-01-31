@@ -1,11 +1,6 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
 signal start_sandbox
 signal start_multiplayer
 signal quit_game
