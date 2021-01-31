@@ -156,7 +156,6 @@ custom_colors/font_color = Color( 0, 0.784314, 0, 1 )
 disabled = true
 text = "Submit"
 [connection signal="buildMaze" from="." to="Navigation2D/TileMap" method="_on_MazeEditor_buildMaze"]
-[connection signal="coordinates" from="Navigation2D/TileMap" to="Navigation2D" method="_on_TileMap_coordinates"]
 [connection signal="coordinates" from="Navigation2D/TileMap" to="." method="_on_TileMap_coordinates"]
 [connection signal="go" from="Navigation2D/TileMap/Control/VBoxContainer/Label" to="Navigation2D/TileMap" method="_on_Label_go"]
 [connection signal="timeout" from="Navigation2D/TileMap/Control/VBoxContainer/Label/Timer" to="Navigation2D/TileMap/Control/VBoxContainer/Label" method="_on_Timer_timeout"]
