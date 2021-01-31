@@ -9,13 +9,31 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Controller",
+"language": "GDScript",
+"path": "res://scenes/maze_level/Controller.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
+}, {
+"base": "KinematicBody",
+"class": "Minion",
+"language": "GDScript",
+"path": "res://scenes/character/minion.gd"
+}, {
+"base": "Controller",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scenes/character/player.gd"
 } ]
 _global_script_class_icons={
-"GitAPI": ""
+"Controller": "",
+"GitAPI": "",
+"Minion": "",
+"Player": ""
 }
 
 [application]

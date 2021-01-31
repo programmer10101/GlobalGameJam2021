@@ -33,7 +33,6 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="OmniLight" type="OmniLight" parent="."]
-visible = false
 
 [node name="Label" type="Label" parent="."]
 visible = false

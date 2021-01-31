@@ -49,7 +49,6 @@ func _physics_process(delta):
     if cmd[4]:
         vel.y = JUMP_FORCE
     if translation.distance_to(get_parent().endPos) < 2.2:
-        print("YEAH")
         $Label.show()
         emit_signal("done", "I won this game")
     
