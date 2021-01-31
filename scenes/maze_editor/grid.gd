@@ -1,10 +1,14 @@
 extends TileMap
 signal coordinates
-var currentTile = Vector2(13, 3)
+var currentTile
 var initialLocation
+var mazeSize
 
 func _ready():
 	initialLocation = get_node(".").get_position()
+	mazeSize = Vector2(5, 10)
+	currentTile = Vector2(ceil(mazeSize.x/2)+5, ceil(mazeSize.y/2)+5)
+	reset()
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -15,21 +19,29 @@ func _input(event):
 			var cell = get_cell(loc.x, loc.y)
 			if(currentTile != loc and lastCell == -1): 
 				set_cellv(currentTile, 5)
-			if(cell == 5 ): 
+			elif(cell == 5 ): 
 				set_cellv(loc, -1)
 			currentTile = loc
-		else:
-			set_cellv(currentTile, 5)
+		else: 
+			var lastCell = get_cell(currentTile.x, currentTile.y)
+			if lastCell == -1: set_cellv(currentTile, 5)
 
 func insideMaze(loc):
-	if (loc.x > 2 and loc.x < 23 and loc.y > 2 and loc.y < 25):
+	if (loc.x > 5 and loc.x < mazeSize.x+5 and loc.y > 5 and loc.y < mazeSize.y+5):
 		return true
 
 func reset():
-	for x in range(3, 23):
-		for y in range(3, 25):
-			set_cell(x, y, 5)
-			
+	for x in range(5, mazeSize.x+6):
+		for y in range(5, mazeSize.y+6):
+			if x == 5 : set_cell(x, y, 6)
+			elif x == mazeSize.x+5: set_cell(x, y, 6)
+			elif y == 5: set_cell(x, y, 6)
+			elif y == mazeSize.y+5: set_cell(x, y, 6)
+			else: set_cell(x, y, 5)
+	var mid = mazeSize.x / 2
+	set_cell(floor(mid)+5, 5, -1)
+	set_cell(ceil(mid)+5, mazeSize.y+5, -1)
+		
 func submit():
 	emit_signal("coordinates", get_used_cells_by_id(5) + get_used_cells_by_id(6))
 
@@ -56,3 +68,8 @@ func _on_Reset_pressed():
 
 func _on_Submit_pressed():
 	submit()
+
+func _on_MazeEditor_buildMaze(vec):
+	mazeSize = vec
+	currentTile = Vector2(vec.x-10, vec.y-10)
+	reset()
