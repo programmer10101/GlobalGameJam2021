@@ -1,11 +1,15 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/maze_editor/grid.gd" type="Script" id=1]
 [ext_resource path="res://img/tiles.png" type="Texture" id=2]
 [ext_resource path="res://scenes/maze_editor/sig.gd" type="Script" id=3]
 [ext_resource path="res://scenes/maze_editor/counter.gd" type="Script" id=4]
 
-[sub_resource type="TileSet" id=1]
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="TileSet" id=2]
 5/name = "tiles.png 5"
 5/texture = ExtResource( 2 )
 5/tex_offset = Vector2( 0, 0 )
@@ -42,6 +46,7 @@
 7/tile_mode = 0
 7/occluder_offset = Vector2( 0, 0 )
 7/navigation_offset = Vector2( 0, 0 )
+7/navigation = SubResource( 1 )
 7/shape_offset = Vector2( 0, 0 )
 7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 7/shape_one_way = false
@@ -49,59 +54,81 @@
 7/shapes = [  ]
 7/z_index = 0
 
-[sub_resource type="DynamicFontData" id=2]
+[sub_resource type="DynamicFontData" id=3]
 font_path = "res://fonts/KarmaFuture.ttf"
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 51
 outline_color = Color( 0, 1, 0, 1 )
-font_data = SubResource( 2 )
+font_data = SubResource( 3 )
 
-[sub_resource type="DynamicFontData" id=6]
+[sub_resource type="DynamicFontData" id=5]
 font_path = "res://fonts/KarmaFuture.ttf"
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 size = 50
-font_data = SubResource( 6 )
+font_data = SubResource( 5 )
 
-[sub_resource type="DynamicFontData" id=8]
+[sub_resource type="DynamicFontData" id=7]
 font_path = "res://fonts/KarmaFuture.ttf"
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=8]
 size = 50
 outline_color = Color( 0, 1, 0, 1 )
-font_data = SubResource( 8 )
+font_data = SubResource( 7 )
 
 [node name="MazeEditor" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Navigation2D"]
 position = Vector2( 122.861, 71.9187 )
-tile_set = SubResource( 1 )
+tile_set = SubResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 1 )
 
-[node name="Control" type="Control" parent="TileMap"]
+[node name="Control" type="Control" parent="Navigation2D/TileMap"]
 margin_right = 700.0
 margin_bottom = 600.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TileMap/Control"]
-margin_left = 447.451
-margin_top = 4.54233
-margin_right = 703.451
-margin_bottom = 489.542
+[node name="VBoxContainer" type="VBoxContainer" parent="Navigation2D/TileMap/Control"]
+margin_left = 449.233
+margin_top = -18.6211
+margin_right = 824.233
+margin_bottom = 466.379
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="TileMap/Control/VBoxContainer"]
-margin_right = 256.0
-margin_bottom = 67.0
-custom_fonts/font = SubResource( 3 )
+[node name="Label2" type="Label" parent="Navigation2D/TileMap/Control/VBoxContainer"]
+margin_right = 375.0
+margin_bottom = 65.0
+text = "You can start drawing your maze. 
+it should contain a valid path from the begining to the end.
+This will be the maze your enemy wil face, so be creative.
+ "
+align = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Navigation2D/TileMap/Control/VBoxContainer"]
+margin_top = 69.0
+margin_right = 375.0
+margin_bottom = 83.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Navigation2D/TileMap/Control/VBoxContainer"]
+margin_top = 87.0
+margin_right = 375.0
+margin_bottom = 87.0
+
+[node name="Label" type="Label" parent="Navigation2D/TileMap/Control/VBoxContainer"]
+margin_top = 91.0
+margin_right = 375.0
+margin_bottom = 158.0
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0.760784, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0.0117647, 0.215686, 0.0823529, 1 )
@@ -110,26 +137,28 @@ align = 1
 max_lines_visible = 64
 script = ExtResource( 4 )
 
-[node name="Timer" type="Timer" parent="TileMap/Control/VBoxContainer/Label"]
+[node name="Timer" type="Timer" parent="Navigation2D/TileMap/Control/VBoxContainer/Label"]
 
-[node name="Reset" type="Button" parent="TileMap/Control/VBoxContainer"]
-margin_top = 71.0
-margin_right = 256.0
-margin_bottom = 143.0
-custom_fonts/font = SubResource( 7 )
+[node name="Reset" type="Button" parent="Navigation2D/TileMap/Control/VBoxContainer"]
+margin_top = 162.0
+margin_right = 375.0
+margin_bottom = 234.0
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0.784314, 0, 1 )
 text = "Reset"
 
-[node name="Submit" type="Button" parent="TileMap/Control/VBoxContainer"]
-margin_top = 147.0
-margin_right = 256.0
-margin_bottom = 219.0
-custom_fonts/font = SubResource( 9 )
+[node name="Submit" type="Button" parent="Navigation2D/TileMap/Control/VBoxContainer"]
+margin_top = 238.0
+margin_right = 375.0
+margin_bottom = 310.0
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0.784314, 0, 1 )
+disabled = true
 text = "Submit"
-[connection signal="buildMaze" from="." to="TileMap" method="_on_MazeEditor_buildMaze"]
-[connection signal="coordinates" from="TileMap" to="." method="_on_TileMap_coordinates"]
-[connection signal="go" from="TileMap/Control/VBoxContainer/Label" to="TileMap" method="_on_Label_go"]
-[connection signal="timeout" from="TileMap/Control/VBoxContainer/Label/Timer" to="TileMap/Control/VBoxContainer/Label" method="_on_Timer_timeout"]
-[connection signal="pressed" from="TileMap/Control/VBoxContainer/Reset" to="TileMap" method="_on_Reset_pressed"]
-[connection signal="pressed" from="TileMap/Control/VBoxContainer/Submit" to="TileMap" method="_on_Submit_pressed"]
+[connection signal="buildMaze" from="." to="Navigation2D/TileMap" method="_on_MazeEditor_buildMaze"]
+[connection signal="coordinates" from="Navigation2D/TileMap" to="." method="_on_TileMap_coordinates"]
+[connection signal="coordinates" from="Navigation2D/TileMap" to="Navigation2D" method="_on_TileMap_coordinates"]
+[connection signal="go" from="Navigation2D/TileMap/Control/VBoxContainer/Label" to="Navigation2D/TileMap" method="_on_Label_go"]
+[connection signal="timeout" from="Navigation2D/TileMap/Control/VBoxContainer/Label/Timer" to="Navigation2D/TileMap/Control/VBoxContainer/Label" method="_on_Timer_timeout"]
+[connection signal="pressed" from="Navigation2D/TileMap/Control/VBoxContainer/Reset" to="Navigation2D/TileMap" method="_on_Reset_pressed"]
+[connection signal="pressed" from="Navigation2D/TileMap/Control/VBoxContainer/Submit" to="Navigation2D/TileMap" method="_on_Submit_pressed"]

@@ -10,4 +10,4 @@ func _init(x=5, y=10):
 
 func _on_TileMap_coordinates(arr):
 	emit_signal("coord", arr)
-	queue_free()
+	#queue_free()
