@@ -1,33 +1,22 @@
 extends MultiMeshInstance
 
-var cube_size = 1
-var y_origin = cube_size / 2.0
-var collisionNode = StaticBody.new()
+var cube_size
+var collisionNode
 
-func init(arr):
+func init(arr, size):
+    collisionNode = StaticBody.new()
+    cube_size = size
     self.add_child(collisionNode)
+    cube_size = 1
     setup_multimesh(arr.size())
     generate_cubes(arr)
 
 func generate_cubes(arr):
-    print(arr)
-    var offset = findOffset(arr)
-    print(offset)
     for i in range(arr.size()):
-        generate_cube(arr[i], i, offset)
-    
-func findOffset(arr):
-    var minXY = arr[0]
-    var maxXY = arr[0]
-    for i in arr:
-        minXY.x = min(i.x, minXY.x)
-        minXY.y = min(i.y, minXY.y)
-        maxXY.x = max(i.x, maxXY.x)
-        maxXY.y = max(i.y, maxXY.y)
-    return Vector2((maxXY.x - minXY.x) * cube_size / 2.0, (maxXY.y - minXY.y) * cube_size / 2.0)
+        generate_cube(arr[i], i)
 
-func generate_cube(loc, i, offset):
-    var pos = Vector3(loc.x * cube_size - offset.x, y_origin, loc.y * cube_size - offset.y)
+func generate_cube(loc, i):
+    var pos = Vector3(loc.x * cube_size, cube_size / 2.0, loc.y * cube_size)
     var transform = Transform(Basis(), pos)
     self.multimesh.set_instance_transform(i, Transform(Basis(), pos))
     var collisionShape = CollisionShape.new()
