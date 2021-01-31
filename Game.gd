@@ -12,6 +12,7 @@ var game_ip = "localhost"
 var max_players = 2
 var player_id = 0
 var opponent_id = 0
+var player_info = {}
 
 func _on_peer_connected(id):
     print("peer connected ", id)
@@ -82,8 +83,12 @@ func start_multiplayer():
     
 func start_multiplayer_lobby():
     print("starting lobby")
+    player_info = {}
     var lobby = MultiplayerLobby.instance()
-    
+    lobby.connect("lobby_start_game", self, "on_lobby_start_game")
+    lobby.connect("lobby_exit", self, "on_lobby_exit")
+    add_child(lobby)
+    get_node("MultiplayerMatcher").queue_free()
 
 func on_matcher_join_game():
     game_port = get_node("MultiplayerMatcher").get_game_port()
@@ -96,10 +101,10 @@ func on_matcher_join_game():
     var _connection_failed = get_tree().connect("connection_failed", self, "_on_connection_failed")
     var _server_disconnected = get_tree().connect("server_disconnected", self, "_on_server_disconnected")
     # Set up an ENet instance
-    
     var network = NetworkedMultiplayerENet.new()
     network.create_client(game_ip, game_port)
     get_tree().set_network_peer(network)
+    start_multiplayer_lobby()
     
 func on_matcher_host_game():
     print("hosting game...")
@@ -114,16 +119,19 @@ func on_matcher_host_game():
     network.create_server(game_port, max_players)
     get_tree().set_network_peer(network)
     create_player(1, false)
+    start_multiplayer_lobby()
     
 func on_matcher_return_to_main_menu():
     get_node("MultiplayerMatcher").queue_free()
     start_main_menu()
     
-func on_lobby_start_game():
-    print("leaving lobby to start a game")
+func on_lobby_start_game(msg):
+    print("leaving lobby to start a game", "player %s, opp %s" % [player_id, opponent_id])
+    #rpc_id(opponent_id, "register_map_with_opponent", {"id": player_id, "msg": msg})
+    start_multiplayer_maze_editor()
     
 func on_lobby_exit():
-    print("exiting lobby")
+    print("exiting lobby", "player %s, opp %s" % [player_id, opponent_id])
     
 func start_maze_level(arr, start, exit):
     print("Starting Maze Level")
@@ -131,6 +139,37 @@ func start_maze_level(arr, start, exit):
     maze_level.init(arr, start, exit)
     add_child(maze_level)
     get_node("MazeEditor").queue_free()
+    
+remote func register_map_with_opponent(map_info):
+    var id = get_tree().get_rpc_sender_id()
+    player_info[id] = map_info
+    print("playerinfo is ", player_info)
+
+func start_multiplayer_maze_editor():
+    print("starting multiplayer maze editor")
+    var maze_editor = MazeEditor.instance()
+    maze_editor.connect("coord", self, "update_multiplayer_maze_level")
+    add_child(maze_editor)
+    get_node("MultiplayerLobby").queue_free()
+    
+func update_multiplayer_maze_level(arr, start, end):
+    print("updating multiplayer maze level")
+    rpc_id(opponent_id, "register_map_with_opponent", {"id": player_id, "map": arr, "start": start, "exit": end})
+    if player_info.has(opponent_id):
+        rpc("all_start_multiplayer_maze_level")
+
+remote func start_multiplayer_maze_level():
+    print("starting multiplayer maze level")
+    var opp_map = player_info[opponent_id]["map"]
+    var opp_start = player_info[opponent_id]["start"]
+    var opp_exit = player_info[opponent_id]["exit"]
+    var maze_level = MazeLevel.instance()
+    maze_level.init(opp_map, opp_start, opp_exit)
+    add_child(maze_level)
+    get_node("MazeEditor").queue_free()
+    
+remotesync func all_start_multiplayer_maze_level():
+    start_multiplayer_maze_level()
 
 func quit_game():
     get_tree().quit()
