@@ -19,7 +19,7 @@ func _ready():
 
 
 func _on_StartGame_pressed():
-    emit_signal("lobby_start_game")
+    emit_signal("lobby_start_game", get_node("MarginContainer/VBoxContainer/Player").text)
 
 
 func _on_ExitLobby_pressed():
