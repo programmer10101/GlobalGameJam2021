@@ -1,5 +1,5 @@
 extends Spatial
-
+const Character = preload("res://scenes/character/Character.tscn")
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -17,11 +17,20 @@ func _ready():
 
 func init(mazeCells, start, ext):
     setMinMaxes(mazeCells)
+    print(minX)
+    print(minY)
+    print(maxX)
+    print(maxY)
+    print(start)
     var mazeDimensions = findMazeDimensions()
-    adjustForOffset(mazeCells, mazeDimensions)
-    $WorldEnvironment.init(mazeCells, cube_size)
+    adjustForOffsets(mazeCells, mazeDimensions)
+    var startPos = adjustForOffset(start, mazeDimensions)
+    var charPos = Vector3(startPos.x * cube_size, 2.5, (startPos.y) * cube_size)
+    var startWallPos = Vector2(startPos.x, startPos.y - 1)
+    $WorldEnvironment.init(mazeCells + [startWallPos], cube_size)
     $WorldEnvironment/CSGBox.width = mazeDimensions.x + 1
     $WorldEnvironment/CSGBox.depth = mazeDimensions.y + 1
+    generateCharacter(charPos)
 
 func setMinMaxes(mazeCells):
     minX = mazeCells[0].x
@@ -34,13 +43,23 @@ func setMinMaxes(mazeCells):
         maxX = max(i.x, maxX)
         maxY = max(i.y, maxY)
     
+func generateCharacter(loc):
+    var character = Character.instance()
+    character.translation = loc
+    add_child(character)
+    
+    
 func findMazeDimensions():
     return Vector2((maxX - minX), (maxY - minY))
     
-func adjustForOffset(mazeCells, mazeDimensions):
+func adjustForOffsets(mazeCells, mazeDimensions):
     for i in range(mazeCells.size()):
-        mazeCells[i].x -= mazeDimensions.x / 2.0 + minX
-        mazeCells[i].y -= mazeDimensions.y /2.0 + minY
+        mazeCells[i] = adjustForOffset(mazeCells[i], mazeDimensions)
+        
+func adjustForOffset(mazeCell, mazeDimensions):
+    mazeCell.x -= mazeDimensions.x / 2.0 + minX
+    mazeCell.y -= mazeDimensions.y /2.0 + minY
+    return mazeCell
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
