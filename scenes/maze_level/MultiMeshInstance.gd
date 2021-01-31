@@ -27,10 +27,10 @@ func generate_cube(loc, i):
     collisionNode.add_child(collisionShape)
 
 func setup_multimesh(instances):
-    self.multimesh = MultiMesh.new()
-    self.multimesh.transform_format = MultiMesh.TRANSFORM_3D
-    self.multimesh.instance_count = instances
-    self.multimesh.visible_instance_count = self.multimesh.instance_count
-    var mesh = CubeMesh.new()
-    mesh.size = Vector3(1,1,1)
-    self.multimesh.mesh = mesh
+	self.multimesh = MultiMesh.new()
+	self.multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	self.multimesh.instance_count = instances
+	self.multimesh.visible_instance_count = self.multimesh.instance_count
+	var mesh = CubeMesh.new()
+	mesh.size = Vector3(1,1,1)
+	self.multimesh.mesh = mesh

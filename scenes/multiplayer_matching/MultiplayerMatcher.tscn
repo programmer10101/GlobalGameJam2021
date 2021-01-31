@@ -1,11 +1,151 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/multiplayer_matching/MultiplayerMatcher.gd" type="Script" id=1]
+[ext_resource path="res://fonts/roboto/Roboto-Bold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/luckiest-guy/LuckiestGuy.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/roboto/RobotoCondensed-Bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://fonts/roboto/RobotoCondensed-Light.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 45
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 25
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 25
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 35
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 35
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 35
+font_data = ExtResource( 5 )
 
 [node name="MultiplayerMatcher" type="Control"]
 margin_right = 40.0
 margin_bottom = 40.0
+rect_scale = Vector2( 1, 1.00526 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 635.0
+margin_bottom = 333.0
+custom_constants/separation = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 635.0
+margin_bottom = 53.0
+
+[node name="IpChoicesLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 523.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 1 )
+text = "List of local IP Addresses:"
+
+[node name="IpChoices" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 527.0
+margin_right = 635.0
+margin_bottom = 53.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 3 )
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 57.0
+margin_right = 635.0
+margin_bottom = 110.0
+size_flags_horizontal = 2
+
+[node name="JoinIpAddressLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 381.0
+margin_bottom = 53.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 4 )
+text = "IP Address to Join:"
+
+[node name="JoinIpAddress" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 385.0
+margin_right = 635.0
+margin_bottom = 53.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 5 )
+align = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 114.0
+margin_right = 635.0
+margin_bottom = 162.0
+
+[node name="JoinPortLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_right = 224.0
+margin_bottom = 48.0
+custom_fonts/font = SubResource( 6 )
+text = "Port to Join:"
+
+[node name="JoinPort" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 228.0
+margin_right = 378.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 150, 0 )
+custom_fonts/font = SubResource( 9 )
+text = "13021"
+align = 1
+
+[node name="JoinGame" type="Button" parent="MarginContainer/VBoxContainer"]
+margin_top = 166.0
+margin_right = 635.0
+margin_bottom = 219.0
+custom_fonts/font = SubResource( 7 )
+text = "Join Game"
+
+[node name="HostGame" type="Button" parent="MarginContainer/VBoxContainer"]
+margin_top = 223.0
+margin_right = 635.0
+margin_bottom = 276.0
+custom_fonts/font = SubResource( 8 )
+text = "Host Game"
+
+[node name="MainReturn" type="Button" parent="MarginContainer/VBoxContainer"]
+margin_top = 280.0
+margin_right = 635.0
+margin_bottom = 333.0
+custom_fonts/font = SubResource( 10 )
+text = "Return to Main Menu"
+[connection signal="pressed" from="MarginContainer/VBoxContainer/JoinGame" to="." method="_on_JoinGame_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HostGame" to="." method="_on_HostGame_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MainReturn" to="." method="_on_MainReturn_pressed"]

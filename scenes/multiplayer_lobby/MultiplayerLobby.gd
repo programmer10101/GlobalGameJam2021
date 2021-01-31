@@ -1,5 +1,7 @@
 extends Control
 
+signal lobby_start_game
+signal lobby_exit
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -14,3 +16,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #    pass
+
+
+func _on_StartGame_pressed():
+    emit_signal("lobby_start_game")
+
+
+func _on_ExitLobby_pressed():
+    emit_signal("lobby_exit")
