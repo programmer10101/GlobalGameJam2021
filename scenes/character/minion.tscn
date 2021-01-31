@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/character/minion.gd" type="Script" id=1]
+[ext_resource path="res://fonts/KarmaFuture.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -15,6 +16,11 @@ height = 1.5
 radial_segments = 8
 rings = 1
 
+[sub_resource type="DynamicFont" id=4]
+size = 200
+outline_color = Color( 0.137255, 0.490196, 0.109804, 1 )
+font_data = ExtResource( 2 )
+
 [node name="Minion" type="KinematicBody"]
 script = ExtResource( 1 )
 
@@ -28,3 +34,16 @@ material/0 = null
 
 [node name="OmniLight" type="OmniLight" parent="."]
 visible = false
+
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_left = 67.4238
+margin_top = 104.881
+margin_right = 938.424
+margin_bottom = 364.881
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.101961, 0.662745, 0.14902, 1 )
+text = "YOU WON!"
+__meta__ = {
+"_edit_use_anchors_": false
+}

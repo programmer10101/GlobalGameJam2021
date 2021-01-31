@@ -6,4 +6,4 @@ class_name Controller
 onready var character : Minion = get_parent()
 
 func _ready():
-	pass
+    pass
