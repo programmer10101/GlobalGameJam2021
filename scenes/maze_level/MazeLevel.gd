@@ -10,7 +10,7 @@ const Character = preload("res://scenes/character/minion.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Song.play()
 
 func init(mazeCells, start, ext):
 	setMinMaxes(mazeCells)
