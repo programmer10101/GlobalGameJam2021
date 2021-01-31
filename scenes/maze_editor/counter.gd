@@ -6,11 +6,11 @@ func _ready():
 	set_process_input(true)
 	$Timer.start()
 
-func _input(event):
-	if(event.is_pressed() and not event.is_echo()):
-		var n = int(self.get_text())
-		self.set_text(str(n-1))
-		print("hue")
+#func _input(event):
+#   if(event.is_pressed() and not event.is_echo()):
+#       var n = int(self.get_text())
+#       self.set_text(str(n-1))
+#       print(event)
 
 func _on_Timer_timeout():
 	var n = int(self.get_text()) #.split(":")[1]
