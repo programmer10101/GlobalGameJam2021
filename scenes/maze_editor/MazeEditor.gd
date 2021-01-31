@@ -1,16 +1,13 @@
 extends Node2D
+signal coord
+signal buildMaze
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-    pass # Replace with function body.
+	pass # Replace with function body.
+	
+func _init(x=5, y=10):
+	emit_signal("buildMaze", Vector2(x,y))
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#    pass
+func _on_TileMap_coordinates(arr, s, e):
+	emit_signal("coord", arr, s, e)
+	#queue_free()
