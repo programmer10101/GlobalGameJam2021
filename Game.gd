@@ -82,9 +82,13 @@ func start_multiplayer():
     
 func start_multiplayer_lobby():
     print("starting lobby")
+    var lobby = MultiplayerLobby.instance()
+    
 
 func on_matcher_join_game():
-    print("joining game...")
+    game_port = get_node("MultiplayerMatcher").get_game_port()
+    game_ip = get_node("MultiplayerMatcher").get_game_ip()
+    print("joining game... %s : %s" % [game_ip, game_port])
     # Connect network events
     var _peer_connected = get_tree().connect("network_peer_connected", self, "_on_peer_connected")
     var _peer_disconnected = get_tree().connect("network_peer_disconnected", self, "_on_peer_disconnected")
@@ -92,8 +96,7 @@ func on_matcher_join_game():
     var _connection_failed = get_tree().connect("connection_failed", self, "_on_connection_failed")
     var _server_disconnected = get_tree().connect("server_disconnected", self, "_on_server_disconnected")
     # Set up an ENet instance
-    game_port = get_node("MultiplayerMatcher").get_game_port()
-    game_ip = get_node("MultiplayerMatcher").get_game_ip()
+    
     var network = NetworkedMultiplayerENet.new()
     network.create_client(game_ip, game_port)
     get_tree().set_network_peer(network)
@@ -106,6 +109,7 @@ func on_matcher_host_game():
     # Set up an ENet instance
     game_port = get_node("MultiplayerMatcher").get_game_port()
     game_ip = get_node("MultiplayerMatcher").get_game_ip()
+    print("host set ip : port ... %s : %s" % [game_ip, game_port])
     var network = NetworkedMultiplayerENet.new()
     network.create_server(game_port, max_players)
     get_tree().set_network_peer(network)
@@ -121,10 +125,10 @@ func on_lobby_start_game():
 func on_lobby_exit():
     print("exiting lobby")
     
-func start_maze_level(arr):
+func start_maze_level(arr, start, exit):
     print("Starting Maze Level")
     var maze_level = MazeLevel.instance()
-    maze_level.init(arr)
+    maze_level.init(arr, start, exit)
     add_child(maze_level)
     get_node("MazeEditor").queue_free()
 

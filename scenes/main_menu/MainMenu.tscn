@@ -36,11 +36,14 @@ margin_right = 1024.0
 margin_bottom = 600.0
 grow_horizontal = 0
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/separation = 21
 
 [node name="GameTitle" type="Label" parent="VBoxContainer"]
 margin_right = 1024.0
 margin_bottom = 220.0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.364706, 0.721569, 0.0431373, 1 )
 text = "AMAZING"

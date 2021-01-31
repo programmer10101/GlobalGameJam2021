@@ -14,8 +14,8 @@ var cube_size = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
     pass # Replace with function body.
-    
-func init(mazeCells):
+
+func init(mazeCells, start, ext):
     setMinMaxes(mazeCells)
     var mazeDimensions = findMazeDimensions()
     adjustForOffset(mazeCells, mazeDimensions)
