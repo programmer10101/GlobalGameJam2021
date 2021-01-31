@@ -92,6 +92,8 @@ func on_matcher_join_game():
     var _connection_failed = get_tree().connect("connection_failed", self, "_on_connection_failed")
     var _server_disconnected = get_tree().connect("server_disconnected", self, "_on_server_disconnected")
     # Set up an ENet instance
+    game_port = get_node("MultiplayerMatcher").get_game_port()
+    game_ip = get_node("MultiplayerMatcher").get_game_ip()
     var network = NetworkedMultiplayerENet.new()
     network.create_client(game_ip, game_port)
     get_tree().set_network_peer(network)
